@@ -29,7 +29,9 @@ class _ProfileListState extends State<ProfileList> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/notification');
+              },
               leading: Icon(
                 Icons.notifications,
                 color: mainColor,

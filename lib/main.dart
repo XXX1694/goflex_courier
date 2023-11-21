@@ -6,6 +6,7 @@ import 'package:goflex_courier/features/autharization/presentation/bloc/authariz
 import 'package:goflex_courier/features/autharization/presentation/pages/login_page.dart';
 import 'package:goflex_courier/features/help/presentation/pages/help_page.dart';
 import 'package:goflex_courier/features/main/presentation/pages/main_page.dart';
+import 'package:goflex_courier/features/notification/presentation/pages/notification_page.dart';
 import 'package:goflex_courier/features/order_info/data/repositories/order_info_repository.dart';
 import 'package:goflex_courier/features/order_info/presentation/bloc/order_info_bloc.dart';
 import 'package:goflex_courier/features/orders/data/repository/order_repository.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
           '/main': (context) => const MainPage(),
           '/profile': (context) => const ProfilePage(),
           '/help': (context) => const HelpPage(),
+          '/notification': (context) => const NotificationPage(),
         },
         initialRoute: '/',
       ),
