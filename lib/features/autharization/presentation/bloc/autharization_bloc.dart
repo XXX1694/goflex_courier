@@ -17,7 +17,7 @@ class AutharizationBloc extends Bloc<AutharizationEvent, AutharizationState> {
   }) : super(AutharizationInitial()) {
     on<LogIn>(
       (event, emit) async {
-        emit(LoggedIn());
+        emit(LogingIn());
         try {
           int res = await repo.logIn(
             phone: event.phone,
@@ -47,9 +47,9 @@ class AutharizationBloc extends Bloc<AutharizationEvent, AutharizationState> {
     );
     on<LogOut>(
       (event, emit) async {
-        emit(AutharizationInitial());
         final storage = await _storage;
         await storage.remove('auth_token');
+        emit(AutharizationInitial());
       },
     );
   }

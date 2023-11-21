@@ -7,7 +7,6 @@ import 'package:goflex_courier/features/main/presentation/widgets/bottom_part.da
 import 'package:goflex_courier/features/main/presentation/widgets/nav_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class MainPage extends StatefulWidget {
   const MainPage({
@@ -19,7 +18,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late String _mapStyle;
   final Location _locationController = Location();
   LatLng? _currentP;
   late TextEditingController controller;
@@ -32,9 +30,6 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
 
-    rootBundle.loadString('assets/map_style.txt').then((string) {
-      _mapStyle = string;
-    });
     controller = TextEditingController();
     _currentP = const LatLng(43.238949, 76.889709);
     getCurrentLocation();
@@ -87,19 +82,10 @@ class _MainPageState extends State<MainPage> {
             onTap: (latlng) {
               showBottom(context);
             },
-            onMapCreated: (GoogleMapController controller) {
+            onMapCreated: (GoogleMapController controller) async {
               _mapController.complete(controller);
-              controller.setMapStyle(_mapStyle);
             },
           ),
-          // const Align(
-          //   alignment: Alignment.bottomCenter,
-          //   child: BottomPart(),
-          // ),
-          // const Align(
-          //   alignment: Alignment.topCenter,
-          //   child: TopPart(),
-          // )
         ],
       ),
     );

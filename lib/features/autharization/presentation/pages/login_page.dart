@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocConsumer<AutharizationBloc, AutharizationState>(
       listener: (BuildContext context, Object? state) {
         if (state is LoggedIn) {
-          Navigator.pushNamed(context, '/main');
+          Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
         } else if (state is LogInError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           authBloc.add(
                             LogIn(
-                              phone: _passwordContrller.text,
+                              phone: _phoneController.text,
                               password: _passwordContrller.text,
                             ),
                           );
