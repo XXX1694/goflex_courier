@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:goflex_courier/common/colors.dart';
 import 'package:goflex_courier/features/autharization/presentation/bloc/autharization_bloc.dart';
 import 'package:goflex_courier/features/orders/presentation/pages/orders_page.dart';
+import 'package:goflex_courier/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:goflex_courier/features/settings/presentation/pages/settings_page.dart';
 
 class NavBar extends StatefulWidget {
@@ -14,8 +15,10 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   late AutharizationBloc authBloc;
+  late ProfileBloc profileBloc;
   @override
   void initState() {
+    profileBloc = BlocProvider.of<ProfileBloc>(context);
     authBloc = BlocProvider.of<AutharizationBloc>(context);
     super.initState();
   }
@@ -27,23 +30,50 @@ class _NavBarState extends State<NavBar> {
         backgroundColor: const Color(0xFF141515),
         child: ListView(
           children: [
-            UserAccountsDrawerHeader(
-              arrowColor: mainColor,
-              accountName: const Text('Асылбек'),
-              accountEmail: const Text('asylbel@gmail.com'),
-              currentAccountPicture: CircleAvatar(
-                foregroundColor: mainColor,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
-                    'assets/images/profile.jpg',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              decoration: BoxDecoration(
-                color: mainColor,
-              ),
+            BlocConsumer<ProfileBloc, ProfileState>(
+              builder: (BuildContext context, ProfileState state) {
+                if (state is GotProfile) {
+                  return UserAccountsDrawerHeader(
+                    arrowColor: mainColor,
+                    accountName: Text(state.profile.name),
+                    accountEmail: Text(state.profile.phone),
+                    currentAccountPicture: CircleAvatar(
+                      radius: 100,
+                      foregroundColor: mainColor,
+                      backgroundImage: const AssetImage(
+                        'assets/images/profile.jpg',
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                  );
+                } else {
+                  return UserAccountsDrawerHeader(
+                    arrowColor: mainColor,
+                    accountName: const Text('Пусто'),
+                    accountEmail: const Text('Пусто'),
+                    currentAccountPicture: CircleAvatar(
+                      foregroundColor: mainColor,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image.asset(
+                          'assets/images/profile.jpg',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                    ),
+                  );
+                }
+              },
+              listener: (BuildContext context, ProfileState state) {
+                if (state is ProfileInitial || state is GetProfileError) {
+                  profileBloc.add(GetProfile());
+                }
+              },
             ),
             ListTile(
               onTap: () {

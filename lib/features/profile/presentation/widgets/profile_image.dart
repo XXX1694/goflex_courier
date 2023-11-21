@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:goflex_courier/common/colors.dart';
 
 class ProfileImagePart extends StatelessWidget {
   const ProfileImagePart({super.key, required this.imageUrl});
@@ -16,13 +17,10 @@ class ProfileImagePart extends StatelessWidget {
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(100),
         ),
-        child: ClipOval(
-          child: CircleAvatar(
-            child: Image.asset(
-              imageUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
+        child: CircleAvatar(
+          radius: 100,
+          foregroundColor: mainColor,
+          backgroundImage: AssetImage(imageUrl),
         ),
       ),
     );

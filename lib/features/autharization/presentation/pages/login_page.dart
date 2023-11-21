@@ -5,6 +5,7 @@ import 'package:goflex_courier/features/autharization/presentation/bloc/authariz
 import 'package:goflex_courier/features/autharization/presentation/widgets/login_form_field.dart';
 import 'package:goflex_courier/features/autharization/presentation/widgets/login_main_text.dart';
 import 'package:goflex_courier/features/autharization/presentation/widgets/login_second_text.dart';
+import 'package:goflex_courier/features/profile/presentation/bloc/profile_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,9 +18,11 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController _phoneController;
   late TextEditingController _passwordContrller;
   late AutharizationBloc authBloc;
+  late ProfileBloc profileBloc;
   @override
   void initState() {
     authBloc = BlocProvider.of<AutharizationBloc>(context);
+    profileBloc = BlocProvider.of<ProfileBloc>(context);
     _phoneController = TextEditingController();
     _passwordContrller = TextEditingController();
     authBloc.add(GetStatus());
@@ -32,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       listener: (BuildContext context, Object? state) {
         if (state is LoggedIn) {
           Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+          profileBloc.add(GetProfile());
         } else if (state is LogInError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

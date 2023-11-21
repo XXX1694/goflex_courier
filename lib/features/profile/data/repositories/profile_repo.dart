@@ -1,17 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:goflex_courier/common/constants.dart';
-import 'package:goflex_courier/features/orders/data/models/order_model.dart';
-
+import 'package:goflex_courier/features/profile/data/models/profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final _storage = SharedPreferences.getInstance();
 
-class OrderRepository {
-  getOrders() async {
+class ProfileRepository {
+  getProfile() async {
     final dio = Dio();
     final url = mainUrl;
-    String finalUrl = '${url}delivery-batch/list/';
+    String finalUrl = '${url}users/info/';
     final storage = await _storage;
     String? token = storage.getString('auth_token');
     if (token == null) return null;
@@ -20,18 +19,13 @@ class OrderRepository {
     if (uri != null) {
       try {
         final response = await dio.get(finalUrl);
-        if (kDebugMode) {
-          print(response.data);
-        }
         if (response.statusCode == 200) {
-          List data = response.data;
-          List<OrderModel> orders = [];
-          for (int i = 0; i < data.length; i++) {
-            orders.add(OrderModel.fromJson(data[i]));
+          if (kDebugMode) {
+            print(response.data);
           }
-          return orders;
+          return ProfileModel.fromJson(response.data);
         } else {
-          return [];
+          return null;
         }
       } catch (e) {
         if (kDebugMode) {

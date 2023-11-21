@@ -10,6 +10,8 @@ import 'package:goflex_courier/features/order_info/data/repositories/order_info_
 import 'package:goflex_courier/features/order_info/presentation/bloc/order_info_bloc.dart';
 import 'package:goflex_courier/features/orders/data/repository/order_repository.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
+import 'package:goflex_courier/features/profile/data/repositories/profile_repo.dart';
+import 'package:goflex_courier/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:goflex_courier/features/profile/presentation/pages/profile_page.dart';
 
 void main() {
@@ -40,6 +42,12 @@ class MyApp extends StatelessWidget {
           create: (context) => OrderInfoBloc(
             repo: OrderInfoRepository(),
             orderInfoState: const OrderInfoState(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => ProfileBloc(
+            repo: ProfileRepository(),
+            profileState: const ProfileState(),
           ),
         ),
       ],
