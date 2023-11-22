@@ -7,6 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:goflex_courier/common/colors.dart';
 import 'package:goflex_courier/features/order_info/presentation/pages/order_info_page.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
+import 'package:goflex_courier/features/orders/presentation/widgets/order_buttons.dart';
+import 'package:goflex_courier/features/orders/presentation/widgets/order_detail.dart';
+import 'package:goflex_courier/features/orders/presentation/widgets/order_top_part.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -227,8 +230,45 @@ class _OrdersPageState extends State<OrdersPage> {
                                   color: Colors.white,
                                 ),
                         )
-                      : const Center(
-                          child: Text('Пусто'),
+                      : ListView.builder(
+                          itemCount: 5,
+                          itemBuilder: (context, index) => Container(
+                            padding: const EdgeInsets.all(12),
+                            width: double.infinity,
+                            margin: index == 0
+                                ? const EdgeInsets.symmetric(vertical: 20)
+                                : const EdgeInsets.only(bottom: 20),
+                            height: 208,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1E1E1E),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Column(
+                              children: [
+                                OrderTopPart(
+                                  imageUrl: '',
+                                  orderNumber: '12312125124122',
+                                  from: 'Al-Farabi 12a, 35',
+                                  to: 'Al-Farabi 12a, 35',
+                                ),
+                                SizedBox(height: 12),
+                                OrderDetail(),
+                                SizedBox(height: 12),
+                                Text(
+                                  'Базардан алып кету керек каробка улкен және улкен пакет бар',
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(height: 12),
+                                OrderButtons(
+                                  clientPhone: '+77777777777',
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
             ),
           ),
