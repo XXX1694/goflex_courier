@@ -5,11 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:goflex_courier/common/colors.dart';
-import 'package:goflex_courier/features/order_info/presentation/pages/order_info_page.dart';
+import 'package:goflex_courier/features/map_target/presentation/pages/map_page.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
 import 'package:goflex_courier/features/orders/presentation/widgets/order_buttons.dart';
-import 'package:goflex_courier/features/orders/presentation/widgets/order_detail.dart';
 import 'package:goflex_courier/features/orders/presentation/widgets/order_top_part.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -74,203 +74,102 @@ class _OrdersPageState extends State<OrdersPage> {
           backgroundColor: const Color(0xFF141515),
           foregroundColor: Colors.white,
         ),
-        body: SmartRefresher(
-          header: CustomHeader(
-            builder: (context, mode) => Platform.isAndroid
-                ? CircularProgressIndicator(
-                    color: mainColor,
-                    strokeWidth: 3,
-                  )
-                : CupertinoActivityIndicator(
-                    color: mainColor,
-                  ),
-          ),
-          enablePullDown: true,
-          enablePullUp: false,
-          controller: refreshController,
-          onRefresh: _onRefresh,
-          onLoading: _onLoading,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: state is GotOrders
-                  ? ListView.builder(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: state is GotOrders
+                ? SmartRefresher(
+                    header: CustomHeader(
+                      builder: (context, mode) => Platform.isAndroid
+                          ? CircularProgressIndicator(
+                              color: mainColor,
+                              strokeWidth: 3,
+                            )
+                          : CupertinoActivityIndicator(
+                              color: mainColor,
+                            ),
+                    ),
+                    enablePullDown: true,
+                    enablePullUp: false,
+                    controller: refreshController,
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoading,
+                    child: ListView.builder(
                       itemCount: state.orders.length,
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OrderInfoPage(
-                                tracking_number:
-                                    state.orders[index].tracking_number ?? '',
-                                delete: false,
+                              builder: (context) => MapPage(
+                                to: LatLng(
+                                    double.parse(state
+                                        .orders[index].from_where!['latitude']),
+                                    double.parse(state.orders[index]
+                                        .from_where!['longitude'])),
+                                id: state.orders[index].id ?? 0,
                               ),
                             ),
                           );
                         },
                         child: Container(
+                          padding: const EdgeInsets.all(12),
+                          width: double.infinity,
                           margin: index == 0
                               ? const EdgeInsets.symmetric(vertical: 20)
                               : const EdgeInsets.only(bottom: 20),
-                          padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+                          height: 165,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white24),
+                            color: const Color(0xFF1E1E1E),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    state.orders[index].status ?? '',
-                                    style: TextStyle(
-                                      color: mainColor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    state.orders[index].tracking_number ?? '',
-                                    style: const TextStyle(
-                                      color: Colors.white54,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
+                              OrderTopPart(
+                                imageUrl: '',
+                                orderNumber: state.orders[index].id.toString(),
+                                to: state.orders[index].to_where?['address'],
+                                from:
+                                    state.orders[index].from_where?['address'],
                               ),
-                              const SizedBox(height: 8),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    const TextSpan(
-                                      text: 'Отправитель: ',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text:
-                                          state.orders[index].sender.toString(),
-                                      style: const TextStyle(
-                                        color: Colors.white54,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
+                              const SizedBox(height: 12),
+                              // const OrderDetail(),
+                              // const SizedBox(height: 12),
+                              Text(
+                                state.orders[index].description ??
+                                    'Нет описнаия',
+                                style: const TextStyle(
+                                  color: Colors.white54,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    const TextSpan(
-                                      text: 'От: ',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: state
-                                          .orders[index].from_where?['address'],
-                                      style: const TextStyle(
-                                        color: Colors.white54,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    const TextSpan(
-                                      text: 'До: ',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: state
-                                          .orders[index].to_where?['address'],
-                                      style: const TextStyle(
-                                        color: Colors.white54,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              const SizedBox(height: 12),
+                              OrderButtons(
+                                sender: state.orders[index].sender ?? '',
+                                resiver: state.orders[index].consumer ?? '',
                               ),
                             ],
                           ),
                         ),
                       ),
-                    )
-                  : state is GettingOrders
-                      ? Center(
-                          child: Platform.isAndroid
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 3,
-                                )
-                              : const CupertinoActivityIndicator(
-                                  color: Colors.white,
-                                ),
-                        )
-                      : ListView.builder(
-                          itemCount: 5,
-                          itemBuilder: (context, index) => Container(
-                            padding: const EdgeInsets.all(12),
-                            width: double.infinity,
-                            margin: index == 0
-                                ? const EdgeInsets.symmetric(vertical: 20)
-                                : const EdgeInsets.only(bottom: 20),
-                            height: 208,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF1E1E1E),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Column(
-                              children: [
-                                OrderTopPart(
-                                  imageUrl: '',
-                                  orderNumber: '12312125124122',
-                                  from: 'Al-Farabi 12a, 35',
-                                  to: 'Al-Farabi 12a, 35',
-                                ),
-                                SizedBox(height: 12),
-                                OrderDetail(),
-                                SizedBox(height: 12),
-                                Text(
-                                  'Базардан алып кету керек каробка улкен және улкен пакет бар',
-                                  style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(height: 12),
-                                OrderButtons(
-                                  clientPhone: '+77777777777',
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-            ),
+                    ),
+                  )
+                : state is GettingOrders
+                    ? Center(
+                        child: Platform.isAndroid
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3,
+                              )
+                            : const CupertinoActivityIndicator(
+                                color: Colors.white,
+                              ),
+                      )
+                    : const Center(
+                        child: Text('Пусто'),
+                      ),
           ),
         ),
       ),

@@ -33,8 +33,8 @@ class PhoneField extends StatelessWidget {
 }
 
 var maskFormatter = MaskTextInputFormatter(
-  mask: '+7 (###) ###-##-##',
+  mask: '+* (***) ***-**-**',
   filter: {
-    "#": RegExp(r'[0-9]'),
+    "*": RegExp(r'[0-9]'),
   },
 );

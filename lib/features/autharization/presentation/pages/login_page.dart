@@ -35,6 +35,28 @@ class _LoginPageState extends State<LoginPage> {
       listener: (BuildContext context, Object? state) {
         if (state is LoggedIn) {
           Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Местоположение'),
+              content: const Text(
+                  'Чтобы обеспечивать работу выбора адреса доставки и отправки это приложение собирает данные о местоположении, даже когда закрыто или не используется'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Да'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Нет'),
+                ),
+              ],
+            ),
+          );
           profileBloc.add(GetProfile());
         } else if (state is LogInError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -45,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       },
       builder: (BuildContext context, state) => Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xFF252525),
         body: SafeArea(
           child: Padding(

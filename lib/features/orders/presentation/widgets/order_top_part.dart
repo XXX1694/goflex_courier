@@ -7,8 +7,8 @@ class OrderTopPart extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.orderNumber,
-    required this.from,
     required this.to,
+    required this.from,
   });
   final String imageUrl;
   final String orderNumber;
@@ -70,21 +70,26 @@ class OrderTopPart extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // ignore: prefer_const_constructors
                             Text(
-                              from,
+                              from == 'home' ? 'Точка сбора' : from,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
+                            const SizedBox(height: 2),
                             Container(
                               height: 1,
                               width: double.infinity,
                               color: const Color(0xFF595959),
                             ),
+                            const SizedBox(height: 2),
                             Text(
-                              from,
+                              to == 'home' ? 'Точка сбора' : to,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,

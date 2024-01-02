@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:goflex_courier/common/colors.dart';
 import 'package:goflex_courier/features/autharization/presentation/bloc/autharization_bloc.dart';
+import 'package:goflex_courier/features/order_history/presentation/pages/order_history_page.dart';
 import 'package:goflex_courier/features/orders/presentation/pages/orders_page.dart';
 import 'package:goflex_courier/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:goflex_courier/features/settings/presentation/pages/settings_page.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+  const NavBar({super.key, required});
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -35,13 +36,13 @@ class _NavBarState extends State<NavBar> {
                 if (state is GotProfile) {
                   return UserAccountsDrawerHeader(
                     arrowColor: mainColor,
-                    accountName: Text(state.profile.name),
-                    accountEmail: Text(state.profile.phone),
+                    accountName: Text(state.profile.first_name ?? ''),
+                    accountEmail: Text(state.profile.user?['phone'] ?? ''),
                     currentAccountPicture: CircleAvatar(
                       radius: 100,
                       foregroundColor: mainColor,
-                      backgroundImage: const AssetImage(
-                        'assets/images/profile.jpg',
+                      backgroundImage: NetworkImage(
+                        state.profile.user?['image'] ?? '',
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -107,7 +108,14 @@ class _NavBarState extends State<NavBar> {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const OrdersHistoryPage(),
+                  ),
+                );
+              },
               leading: const Icon(
                 Icons.history,
                 color: Colors.white,

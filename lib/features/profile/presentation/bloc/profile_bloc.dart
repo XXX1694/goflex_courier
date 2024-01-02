@@ -24,8 +24,18 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             emit(
               GotProfile(
                 profile: ProfileModel(
-                  phone: '+7 (702) 078 16 94',
-                  name: 'Абзал Серикбай',
+                  user: {
+                    "phone": "+77777777777",
+                  },
+                  email: 'пусто',
+                  first_name: 'Пусто',
+                  id: 1,
+                  iin: 'пусто',
+                  image: '',
+                  last_name: 'Пусто',
+                  works: false,
+                  deliveries: 0,
+                  earnings: 0,
                 ),
               ),
             );

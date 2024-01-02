@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:goflex_courier/common/colors.dart';
+import 'package:goflex_courier/features/main/presentation/bloc/main_bloc.dart';
 import 'package:goflex_courier/features/main/presentation/widgets/bottom_part.dart';
 import 'package:goflex_courier/features/main/presentation/widgets/nav_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,6 +20,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  late MainBloc mainBloc;
   final Location _locationController = Location();
   LatLng? _currentP;
   late TextEditingController controller;
@@ -29,7 +32,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-
+    mainBloc = BlocProvider.of<MainBloc>(context);
     controller = TextEditingController();
     _currentP = const LatLng(43.238949, 76.889709);
     getCurrentLocation();
@@ -80,9 +83,9 @@ class _MainPageState extends State<MainPage> {
             onCameraMove: (CameraPosition? position) {},
             onCameraIdle: () {},
             onTap: (latlng) {
-              showBottom(context);
+              showBottom(context, '', '');
             },
-            onMapCreated: (GoogleMapController controller) async {
+            onMapCreated: (GoogleMapController controller) {
               _mapController.complete(controller);
             },
           ),
@@ -91,7 +94,11 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  showBottom(BuildContext context) {
+  showBottom(
+    BuildContext context,
+    String name,
+    String phone,
+  ) {
     return showModalBottomSheet(
       backgroundColor: const Color(0xFF141515),
       context: context,

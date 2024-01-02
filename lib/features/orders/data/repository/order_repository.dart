@@ -11,7 +11,7 @@ class OrderRepository {
   getOrders() async {
     final dio = Dio();
     final url = mainUrl;
-    String finalUrl = '${url}delivery-batch/list/';
+    String finalUrl = '${url}delivery/active/list/';
     final storage = await _storage;
     String? token = storage.getString('auth_token');
     if (token == null) return null;
@@ -19,9 +19,14 @@ class OrderRepository {
     Uri? uri = Uri.tryParse(finalUrl);
     if (uri != null) {
       try {
-        final response = await dio.get(finalUrl);
+        final response = await dio.get(
+          finalUrl,
+        );
         if (kDebugMode) {
           print(response.data);
+        }
+        if (kDebugMode) {
+          print(response.statusCode);
         }
         if (response.statusCode == 200) {
           List data = response.data;

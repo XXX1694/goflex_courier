@@ -4,11 +4,18 @@ import 'package:goflex_courier/common/colors.dart';
 import 'package:goflex_courier/features/autharization/data/repositories/auth_repo.dart';
 import 'package:goflex_courier/features/autharization/presentation/bloc/autharization_bloc.dart';
 import 'package:goflex_courier/features/autharization/presentation/pages/login_page.dart';
+import 'package:goflex_courier/features/deliveried/data/repositories/repo.dart';
+import 'package:goflex_courier/features/deliveried/presentation/bloc/deliveried_bloc.dart';
+import 'package:goflex_courier/features/delivery_accept/data/repositories/repo.dart';
+import 'package:goflex_courier/features/delivery_accept/presentation/bloc/delivery_accept_bloc.dart';
 import 'package:goflex_courier/features/help/presentation/pages/help_page.dart';
+import 'package:goflex_courier/features/main/data/repositories/main_repo.dart';
+import 'package:goflex_courier/features/main/presentation/bloc/main_bloc.dart';
 import 'package:goflex_courier/features/main/presentation/pages/main_page.dart';
 import 'package:goflex_courier/features/notification/presentation/pages/notification_page.dart';
-import 'package:goflex_courier/features/order_info/data/repositories/order_info_repository.dart';
-import 'package:goflex_courier/features/order_info/presentation/bloc/order_info_bloc.dart';
+import 'package:goflex_courier/features/order_history/data/repositories/repo.dart';
+import 'package:goflex_courier/features/order_history/presentation/bloc/order_history_bloc.dart';
+
 import 'package:goflex_courier/features/orders/data/repository/order_repository.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
 import 'package:goflex_courier/features/profile/data/repositories/profile_repo.dart';
@@ -40,15 +47,33 @@ class MyApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
-          create: (context) => OrderInfoBloc(
-            repo: OrderInfoRepository(),
-            orderInfoState: const OrderInfoState(),
-          ),
-        ),
-        BlocProvider(
           create: (context) => ProfileBloc(
             repo: ProfileRepository(),
             profileState: const ProfileState(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => MainBloc(
+            repo: MainRepository(),
+            mainState: const MainState(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DeliveryAcceptBloc(
+            repo: AcceptDeliveryRepo(),
+            deliveryAcceptState: const DeliveryAcceptState(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => DeliveriedBloc(
+            repo: DeliveriedRepo(),
+            deliveriedState: const DeliveriedState(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => OrderHistoryBloc(
+            repo: OrderArchiveRepository(),
+            orderHistoryState: const OrderHistoryState(),
           ),
         ),
       ],

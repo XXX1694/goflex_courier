@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         imageUrl: 'assets/images/profile.jpg'),
                     const SizedBox(height: 20),
                     Text(
-                      state.profile.name,
+                      state.profile.first_name ?? 'пусто',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      state.profile.phone,
+                      state.profile.user?['phone'] ?? 'пусто',
                       style: const TextStyle(
                         color: Colors.white54,
                         fontSize: 12,
@@ -59,10 +59,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const ProfileInfoPart(
-                      raiting: 4.6,
-                      earned: 112,
-                      orderCount: 98786,
+                    ProfileInfoPart(
+                      raiting: 5.0,
+                      earned: state.profile.earnings ?? 0,
+                      orderCount: state.profile.deliveries ?? 0,
                     ),
                     const SizedBox(height: 40),
                     const Expanded(

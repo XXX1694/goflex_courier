@@ -2,6 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:label="goflex"
         android:name="${applicationName}"
@@ -37,7 +38,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data android:name="com.google.android.geo.AIzaSyBK8UODiBnpgbTS_0AaJIHMuo3gcmXfw-Y"
+        <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBK8UODiBnpgbTS_0AaJIHMuo3gcmXfw-Y"/>
     </application>
 </manifest>

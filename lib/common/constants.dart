@@ -1,1 +1,1 @@
-String mainUrl = 'http://185.125.91.53:8000/';
+String mainUrl = 'https://back.goflex.kz/';

@@ -10,7 +10,7 @@ class ProfileRepository {
   getProfile() async {
     final dio = Dio();
     final url = mainUrl;
-    String finalUrl = '${url}users/info/';
+    String finalUrl = '${url}courier/info/';
     final storage = await _storage;
     String? token = storage.getString('auth_token');
     if (token == null) return null;

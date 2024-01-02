@@ -7,12 +7,28 @@ part of 'profile_model.dart';
 // **************************************************************************
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
-      name: json['name'] as String,
-      phone: json['phone'] as String,
+      email: json['email'] as String?,
+      first_name: json['first_name'] as String?,
+      id: json['id'] as int,
+      iin: json['iin'] as String?,
+      image: json['image'] as String?,
+      last_name: json['last_name'] as String?,
+      works: json['works'] as bool?,
+      user: json['user'] as Map<String, dynamic>?,
+      deliveries: json['deliveries'] as int?,
+      earnings: json['earnings'] as int?,
     );
 
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'phone': instance.phone,
+      'id': instance.id,
+      'first_name': instance.first_name,
+      'last_name': instance.last_name,
+      'iin': instance.iin,
+      'image': instance.image,
+      'email': instance.email,
+      'user': instance.user,
+      'works': instance.works,
+      'deliveries': instance.deliveries,
+      'earnings': instance.earnings,
     };

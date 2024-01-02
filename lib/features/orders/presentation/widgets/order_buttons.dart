@@ -8,9 +8,11 @@ import 'package:url_launcher/url_launcher.dart';
 class OrderButtons extends StatelessWidget {
   const OrderButtons({
     super.key,
-    required this.clientPhone,
+    required this.sender,
+    required this.resiver,
   });
-  final String clientPhone;
+  final String sender;
+  final String resiver;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -20,7 +22,7 @@ class OrderButtons extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () async {
-                const String phoneNumber = 'tel:+77755205145';
+                final String phoneNumber = 'tel:$sender';
                 try {
                   if (await canLaunch(phoneNumber)) {
                     await launch(phoneNumber);
@@ -42,7 +44,7 @@ class OrderButtons extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'Админ',
+                    'Отправитель',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -57,7 +59,7 @@ class OrderButtons extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () async {
-                final String phoneNumber = 'tel:$clientPhone';
+                final String phoneNumber = 'tel:$resiver';
                 try {
                   if (await canLaunch(phoneNumber)) {
                     await launch(phoneNumber);
@@ -79,7 +81,7 @@ class OrderButtons extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'Книент',
+                    'Получатель',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
