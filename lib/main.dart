@@ -15,12 +15,13 @@ import 'package:goflex_courier/features/main/presentation/pages/main_page.dart';
 import 'package:goflex_courier/features/notification/presentation/pages/notification_page.dart';
 import 'package:goflex_courier/features/order_history/data/repositories/repo.dart';
 import 'package:goflex_courier/features/order_history/presentation/bloc/order_history_bloc.dart';
-
 import 'package:goflex_courier/features/orders/data/repository/order_repository.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
 import 'package:goflex_courier/features/profile/data/repositories/profile_repo.dart';
 import 'package:goflex_courier/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:goflex_courier/features/profile/presentation/pages/profile_page.dart';
+import 'package:goflex_courier/utils/analytics/app_analytics.dart';
+import 'package:goflex_courier/utils/permission_utils.dart';
 
 void main() {
   runApp(const MyApp());

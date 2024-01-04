@@ -7,6 +7,9 @@ import 'package:goflex_courier/features/autharization/presentation/widgets/login
 import 'package:goflex_courier/features/autharization/presentation/widgets/login_second_text.dart';
 import 'package:goflex_courier/features/profile/presentation/bloc/profile_bloc.dart';
 
+import '../../../../utils/analytics/app_analytics.dart';
+import '../../../../utils/permission_utils.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -21,12 +24,18 @@ class _LoginPageState extends State<LoginPage> {
   late ProfileBloc profileBloc;
   @override
   void initState() {
+    initialization();
     authBloc = BlocProvider.of<AutharizationBloc>(context);
     profileBloc = BlocProvider.of<ProfileBloc>(context);
     _phoneController = TextEditingController();
     _passwordContrller = TextEditingController();
     authBloc.add(GetStatus());
     super.initState();
+  }
+
+  void initialization() async {
+    await AppAnalytics.requestTrackingAuthorization();
+    await PermissionUtils.checkLocationPermission();
   }
 
   @override
