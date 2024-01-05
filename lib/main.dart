@@ -20,8 +20,6 @@ import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dar
 import 'package:goflex_courier/features/profile/data/repositories/profile_repo.dart';
 import 'package:goflex_courier/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:goflex_courier/features/profile/presentation/pages/profile_page.dart';
-import 'package:goflex_courier/utils/analytics/app_analytics.dart';
-import 'package:goflex_courier/utils/permission_utils.dart';
 
 void main() {
   runApp(const MyApp());
