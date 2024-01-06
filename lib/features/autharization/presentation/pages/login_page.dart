@@ -35,7 +35,6 @@ class _LoginPageState extends State<LoginPage> {
 
   void initialization() async {
     await PermissionUtils.checkLocationPermission();
-    await AppAnalytics.requestTrackingAuthorization();
   }
 
   @override
@@ -97,7 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                     ? const MainButtonLoading()
                     : MainButton(
                         text: 'Войти',
-                        onPressed: () {
+                        onPressed: () async {
+                          await AppAnalytics.requestTrackingAuthorization();
                           authBloc.add(
                             LogIn(
                               phone: _phoneController.text,
