@@ -34,8 +34,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void initialization() async {
-    await AppAnalytics.requestTrackingAuthorization();
     await PermissionUtils.checkLocationPermission();
+    await AppAnalytics.requestTrackingAuthorization();
   }
 
   @override
