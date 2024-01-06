@@ -4,7 +4,9 @@ import 'package:flutter/foundation.dart';
 class AppAnalytics {
   static Future<void> requestTrackingAuthorization() async {
     try {
-      print(await AppTrackingTransparency.trackingAuthorizationStatus);
+      if (kDebugMode) {
+        print(await AppTrackingTransparency.trackingAuthorizationStatus);
+      }
       if (await AppTrackingTransparency.trackingAuthorizationStatus ==
           TrackingStatus.notDetermined) {
         await AppTrackingTransparency.requestTrackingAuthorization();
