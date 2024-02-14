@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+3
+version: 1.0.3+8
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -46,6 +46,13 @@ dependencies:
   flutter_polyline_points: ^2.0.0
   flutter_native_splash: ^2.3.5
   app_tracking_transparency: ^2.0.4
+  grouped_list: ^5.1.2
+  provider: ^6.0.5
+  get: ^4.6.6
+  intl: ^0.17.0
+  dgis_map_kit: ^0.0.6
+  dgis_map_platform_interface: ^0.0.2
+  map_launcher: ^3.1.0
 
 flutter_native_splash:
   android: true
@@ -78,6 +85,7 @@ flutter:
     - assets/map_style.txt
     - assets/icons/
     - assets/images/
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

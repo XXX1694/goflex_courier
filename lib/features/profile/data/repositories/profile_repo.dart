@@ -13,6 +13,7 @@ class ProfileRepository {
     String finalUrl = '${url}courier/info/';
     final storage = await _storage;
     String? token = storage.getString('auth_token');
+
     if (token == null) return null;
     dio.options.headers["authorization"] = "Token $token";
     Uri? uri = Uri.tryParse(finalUrl);

@@ -109,6 +109,19 @@ class _NavBarState extends State<NavBar> {
             ),
             ListTile(
               onTap: () {
+                Navigator.pushNamed(context, '/chat');
+              },
+              leading: const Icon(
+                Icons.chat,
+                color: Colors.white,
+              ),
+              title: const Text(
+                'Чат',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            ListTile(
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(

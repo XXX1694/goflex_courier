@@ -11,17 +11,19 @@ class OrderRepository {
   getOrders() async {
     final dio = Dio();
     final url = mainUrl;
-    String finalUrl = '${url}delivery/active/list/';
+
     final storage = await _storage;
     String? token = storage.getString('auth_token');
+    final lat = storage.getDouble('current_lat');
+    final lng = storage.getDouble('current_lng');
+    String finalUrl =
+        '${url}delivery/active/list/?latitude=$lat&longitude=$lng';
     if (token == null) return null;
     dio.options.headers["authorization"] = "Token $token";
     Uri? uri = Uri.tryParse(finalUrl);
     if (uri != null) {
       try {
-        final response = await dio.get(
-          finalUrl,
-        );
+        final response = await dio.get(finalUrl);
         if (kDebugMode) {
           print(response.data);
         }

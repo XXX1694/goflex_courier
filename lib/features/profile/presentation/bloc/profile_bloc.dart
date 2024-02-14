@@ -36,6 +36,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                   works: false,
                   deliveries: 0,
                   earnings: 0,
+                  deliveries_last_30: 0,
+                  deliveries_today: 0,
+                  distance: 0,
+                  distance_last_30: 0,
+                  distance_today: 0,
+                  earnings_last_30: 0,
+                  earnings_today: 0,
                 ),
               ),
             );

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,17 +9,21 @@ import 'package:goflex_courier/common/widgets/main_button.dart';
 import 'package:goflex_courier/features/deliveried/presentation/bloc/deliveried_bloc.dart';
 import 'package:goflex_courier/features/delivery_accept/presentation/bloc/delivery_accept_bloc.dart';
 import 'package:goflex_courier/features/main/presentation/bloc/main_bloc.dart';
+import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({
     super.key,
     required this.to,
     required this.id,
+    required this.type,
   });
   final LatLng to;
   final int id;
+  final String type;
   @override
   State<MapPage> createState() => _MapPageState();
 }
@@ -26,9 +31,11 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   late DeliveryAcceptBloc acceptBloc;
   late DeliveriedBloc deliviredBloc;
+  double totalDistance = 0;
   late MainBloc mainBloc;
   LatLng? _currentP;
   late TextEditingController controller;
+  late OrdersBloc bloc;
   Location location = Location();
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
@@ -46,14 +53,27 @@ class _MapPageState extends State<MapPage> {
     deliviredBloc.add(ResetA());
     controller = TextEditingController();
     _currentP = const LatLng(43.238949, 76.889709);
-    getCurrentLocation().then((_) => getPolyinePoints().then((coordinates) {
+    getCurrentLocation().then(
+      (_) => getPolyinePoints().then(
+        (coordinates) {
           generatePolyLineFromPoints(coordinates);
-        }));
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFF141515),
+        foregroundColor: Colors.white,
+        title: widget.type == "SENDING"
+            ? const Text('Отправить заказ')
+            : const Text('Забрать заказ'),
+        centerTitle: true,
+      ),
       backgroundColor: const Color(0xFF141515),
       body: _currentP != null
           ? Stack(
@@ -106,8 +126,15 @@ class _MapPageState extends State<MapPage> {
                                     return MainButton(
                                       text: 'Заказ доставлен',
                                       onPressed: () {
-                                        deliviredBloc
-                                            .add(Delivered(id: widget.id));
+                                        totalDistance != 0
+                                            ? deliviredBloc.add(
+                                                Delivered(
+                                                  id: widget.id,
+                                                  distance:
+                                                      totalDistance.toInt(),
+                                                ),
+                                              )
+                                            : null;
                                       },
                                     );
                                   }
@@ -127,6 +154,7 @@ class _MapPageState extends State<MapPage> {
                                       ),
                                     );
                                     Navigator.pop(context);
+                                    bloc.add(GetOrders());
                                   }
                                 },
                               );
@@ -228,8 +256,10 @@ class _MapPageState extends State<MapPage> {
   //     },
   //   );
   // }
+  final _storage = SharedPreferences.getInstance();
 
   getCurrentLocation() async {
+    final storage = await _storage;
     bool servideEnabled;
     PermissionStatus premissionGranted;
 
@@ -254,6 +284,14 @@ class _MapPageState extends State<MapPage> {
       location.changeSettings(accuracy: LocationAccuracy.high);
 
       _currentPos = await location.getLocation();
+      await storage.setDouble(
+        'current_lat',
+        _currentPos!.latitude!,
+      );
+      await storage.setDouble(
+        'current_lng',
+        _currentPos!.longitude!,
+      );
       controller.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -299,6 +337,24 @@ class _MapPageState extends State<MapPage> {
         print(result.errorMessage);
       }
     }
+    for (var i = 0; i < polilineCoordinates.length - 1; i++) {
+      totalDistance += calculateDistance(
+          polilineCoordinates[i].latitude,
+          polilineCoordinates[i].longitude,
+          polilineCoordinates[i + 1].latitude,
+          polilineCoordinates[i + 1].longitude);
+    }
+    if (kDebugMode) {
+      print(totalDistance);
+    }
     return polilineCoordinates;
   }
+}
+
+double calculateDistance(lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;
+  var a = 0.5 -
+      cos((lat2 - lat1) * p) / 2 +
+      cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
+  return 12742 * asin(sqrt(a));
 }

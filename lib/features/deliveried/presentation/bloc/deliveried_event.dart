@@ -9,7 +9,11 @@ abstract class DeliveriedEvent extends Equatable {
 
 class Delivered extends DeliveriedEvent {
   final int id;
-  const Delivered({required this.id});
+  final int distance;
+  const Delivered({
+    required this.id,
+    required this.distance,
+  });
 }
 
 class ResetA extends DeliveriedEvent {}

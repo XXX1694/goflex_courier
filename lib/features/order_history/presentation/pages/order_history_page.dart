@@ -8,6 +8,7 @@ import 'package:goflex_courier/common/colors.dart';
 import 'package:goflex_courier/features/order_history/presentation/bloc/order_history_bloc.dart';
 import 'package:goflex_courier/features/orders/presentation/widgets/order_buttons.dart';
 import 'package:goflex_courier/features/orders/presentation/widgets/order_top_part.dart';
+import 'package:intl/intl.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -121,8 +122,8 @@ class _OrdersHistoryPageState extends State<OrdersHistoryPage> {
                               // const OrderDetail(),
                               // const SizedBox(height: 12),
                               Text(
-                                state.orders[index].description ??
-                                    'Нет описнаия',
+                                formatStringToDDMMYYYY(
+                                    state.orders[index].created_at ?? ''),
                                 style: const TextStyle(
                                   color: Colors.white54,
                                   fontSize: 10,
@@ -131,8 +132,10 @@ class _OrdersHistoryPageState extends State<OrdersHistoryPage> {
                               ),
                               const SizedBox(height: 12),
                               OrderButtons(
-                                sender: state.orders[index].sender ?? '',
-                                resiver: state.orders[index].consumer ?? '',
+                                sender: state.orders[index].sender ??
+                                    '+77074462659',
+                                resiver: state.orders[index].consumer ??
+                                    '+77074462659',
                               ),
                             ],
                           ),
@@ -159,4 +162,18 @@ class _OrdersHistoryPageState extends State<OrdersHistoryPage> {
       ),
     );
   }
+}
+
+String formatStringToDDMMYYYY(String dateString) {
+  // Parse the string to a DateTime object
+  DateTime dateTime = DateTime.parse(dateString);
+
+  // Format the DateTime using the formatDateTimeToDDMMYYYY function
+  return formatDateTimeToDDMMYYYY(dateTime);
+}
+
+String formatDateTimeToDDMMYYYY(DateTime dateTime) {
+  // Format the DateTime using intl package
+  final formatter = DateFormat('dd/MM/yyyy');
+  return formatter.format(dateTime);
 }

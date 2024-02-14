@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:dgis_map_kit/dgis_map_kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,8 +7,8 @@ import 'package:goflex_courier/common/colors.dart';
 import 'package:goflex_courier/features/main/presentation/bloc/main_bloc.dart';
 import 'package:goflex_courier/features/main/presentation/widgets/bottom_part.dart';
 import 'package:goflex_courier/features/main/presentation/widgets/nav_bar.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({
@@ -22,19 +22,21 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   late MainBloc mainBloc;
   final Location _locationController = Location();
-  LatLng? _currentP;
-  late TextEditingController controller;
+  Position? _currentP;
   Location location = Location();
-  final Completer<GoogleMapController> _mapController =
-      Completer<GoogleMapController>();
+
   String? address;
+  late DGisMapController _controller;
+  // final Completer<bool> _isMapReadyCompleter = Completer();
 
   @override
   void initState() {
     super.initState();
     mainBloc = BlocProvider.of<MainBloc>(context);
-    controller = TextEditingController();
-    _currentP = const LatLng(43.238949, 76.889709);
+    _currentP = const Position(
+      lat: 43.238949,
+      long: 76.889709,
+    );
     getCurrentLocation();
   }
 
@@ -53,16 +55,16 @@ class _MainPageState extends State<MainPage> {
                 text: 'go',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               TextSpan(
                 text: 'flex',
                 style: TextStyle(
                   color: mainColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
@@ -71,22 +73,42 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Stack(
         children: [
-          GoogleMap(
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            zoomControlsEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target: _currentP!,
-              zoom: 16,
-            ),
-            mapType: MapType.normal,
-            onCameraMove: (CameraPosition? position) {},
-            onCameraIdle: () {},
-            onTap: (latlng) {
-              showBottom(context, '', '');
+          DGisMap(
+            theme: MapTheme.DARK,
+            token: "64cca5be-30f8-4772-8d5c-d64bab285c67",
+            enableUserLocation: true,
+            onUserLocationChanged: (position) {
+              return Marker(
+                position: position,
+                icon: "assets/user_location.png",
+                iconOptions: const MapIconOptions(size: 40.0),
+              );
             },
-            onMapCreated: (GoogleMapController controller) {
-              _mapController.complete(controller);
+            initialCameraPosition: CameraPosition(
+              position: const Position(
+                lat: 51.169392,
+                long: 71.449074,
+              ),
+              zoom: 12,
+            ),
+            mapOnTap: (position) {
+              _controller.moveCamera(
+                CameraPosition(position: position, zoom: 18.0),
+                duration: const Duration(milliseconds: 400),
+                animationType: CameraAnimationType.SHOW_BOTH_POSITIONS,
+              );
+              _controller.markersController.addMarker(
+                Marker(
+                  id: "user_marker",
+                  position: position,
+                  icon: "assets/map_pin.png",
+                ),
+                "user_markers",
+              );
+            },
+            mapOnReady: () {},
+            mapOnCreated: (controller) {
+              _controller = controller;
             },
           ),
         ],
@@ -107,12 +129,13 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  final _storage = SharedPreferences.getInstance();
   Future<void> getCurrentLocation() async {
+    final storage = await _storage;
     bool servideEnabled;
     PermissionStatus premissionGranted;
 
     servideEnabled = await location.serviceEnabled();
-    final GoogleMapController controller = await _mapController.future;
 
     if (servideEnabled) {
       servideEnabled = await location.requestService();
@@ -133,25 +156,34 @@ class _MainPageState extends State<MainPage> {
         if (currentLocation.longitude != null &&
             currentLocation.latitude != null) {
           setState(() {
-            _currentP =
-                LatLng(currentLocation.latitude!, currentLocation.longitude!);
+            _currentP = Position(
+              lat: currentLocation.latitude!,
+              long: currentLocation.longitude!,
+            );
           });
-          controller.animateCamera(
-            CameraUpdate.newCameraPosition(
-              CameraPosition(
-                target: LatLng(
-                  currentLocation.latitude!,
-                  currentLocation.longitude!,
-                ),
-                zoom: 16,
+          _controller.moveCamera(
+            CameraPosition(
+              position: Position(
+                lat: currentLocation.latitude!,
+                long: currentLocation.longitude!,
               ),
+              zoom: 16,
             ),
           );
+
           if (kDebugMode) {
             print(_currentP);
           }
         }
       },
+    );
+    await storage.setDouble(
+      'current_lat',
+      _currentP!.lat,
+    );
+    await storage.setDouble(
+      'current_lng',
+      _currentP!.long,
     );
   }
 }

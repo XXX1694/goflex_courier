@@ -30,6 +30,11 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (BuildContext context, ProfileState state) {
         if (state is GotProfile) {
           return Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.white,
+            ),
             backgroundColor: const Color(0xFF141515),
             body: SafeArea(
               child: Padding(
@@ -37,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 54),
+                    const SizedBox(height: 20),
                     const ProfileImagePart(
                         imageUrl: 'assets/images/profile.jpg'),
                     const SizedBox(height: 20),
@@ -65,9 +70,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       orderCount: state.profile.deliveries ?? 0,
                     ),
                     const SizedBox(height: 40),
-                    const Expanded(
-                      child: ProfileList(),
+                    Expanded(
+                      child: ProfileList(
+                        profile: state.profile,
+                      ),
                     ),
+                    const SizedBox(height: 8),
                     const Text(
                       'goflex 1.0.0',
                       style: TextStyle(

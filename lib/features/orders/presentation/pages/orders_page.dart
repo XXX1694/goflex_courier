@@ -1,15 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:goflex_courier/common/colors.dart';
-import 'package:goflex_courier/features/map_target/presentation/pages/map_page.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
+import 'package:goflex_courier/features/orders/presentation/pages/order_info.dart';
 import 'package:goflex_courier/features/orders/presentation/widgets/order_buttons.dart';
 import 'package:goflex_courier/features/orders/presentation/widgets/order_top_part.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -26,12 +24,6 @@ class _OrdersPageState extends State<OrdersPage> {
 
   void _onRefresh() async {
     bloc.add(GetOrders());
-  }
-
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    if (mounted) setState(() {});
-    refreshController.loadComplete();
   }
 
   late OrdersBloc bloc;
@@ -93,7 +85,6 @@ class _OrdersPageState extends State<OrdersPage> {
                     enablePullUp: false,
                     controller: refreshController,
                     onRefresh: _onRefresh,
-                    onLoading: _onLoading,
                     child: ListView.builder(
                       itemCount: state.orders.length,
                       itemBuilder: (context, index) => GestureDetector(
@@ -101,13 +92,8 @@ class _OrdersPageState extends State<OrdersPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MapPage(
-                                to: LatLng(
-                                    double.parse(state
-                                        .orders[index].from_where!['latitude']),
-                                    double.parse(state.orders[index]
-                                        .from_where!['longitude'])),
-                                id: state.orders[index].id ?? 0,
+                              builder: (context) => OrderInfoPage(
+                                order: state.orders[index],
                               ),
                             ),
                           );
@@ -147,8 +133,10 @@ class _OrdersPageState extends State<OrdersPage> {
                               ),
                               const SizedBox(height: 12),
                               OrderButtons(
-                                sender: state.orders[index].sender ?? '',
-                                resiver: state.orders[index].consumer ?? '',
+                                sender: state.orders[index].sender ??
+                                    '+77074462659',
+                                resiver: state.orders[index].consumer ??
+                                    '+77074462659',
                               ),
                             ],
                           ),
