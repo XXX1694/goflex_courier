@@ -49,7 +49,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Used to demonstrate image picker plugin</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>This information will be used to deliver personalised experience</string>
+	<string>This helps us optimize services and provide tailored promotions. Your data is handled securely. Allow tracking for a more personalized courier experience.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
