@@ -15,7 +15,7 @@ class OrderDetail extends StatelessWidget {
               height: 24,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: const Color(0xFF252525),
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -41,7 +41,7 @@ class OrderDetail extends StatelessWidget {
               height: 24,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: const Color(0xFF252525),
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -67,7 +67,7 @@ class OrderDetail extends StatelessWidget {
               height: 24,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: const Color(0xFF252525),
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(

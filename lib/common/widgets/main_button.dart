@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goflex_courier/common/colors.dart';
 
 class MainButton extends StatelessWidget {
   const MainButton({
@@ -21,16 +20,16 @@ class MainButton extends StatelessWidget {
         height: 50,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: mainColor,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Center(
           child: Text(
             text,
             style: const TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontSize: 16,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -56,14 +55,14 @@ class MainButtonOutlined extends StatelessWidget {
         height: 50,
         width: double.infinity,
         decoration: BoxDecoration(
-          border: Border.all(color: mainColor),
+          border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Center(
           child: Text(
             text,
-            style: TextStyle(
-              color: mainColor,
+            style: const TextStyle(
+              color: Colors.black,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -91,14 +90,14 @@ class MainButtonBlack extends StatelessWidget {
         height: 50,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xFF252525),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Center(
           child: Text(
             text,
             style: const TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -122,7 +121,7 @@ class MainButtonLoading extends StatelessWidget {
         height: 50,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: mainColor,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Center(
@@ -131,11 +130,11 @@ class MainButtonLoading extends StatelessWidget {
             width: 30,
             child: Platform.isAndroid
                 ? const CircularProgressIndicator(
-                    color: Colors.white,
+                    color: Colors.black,
                     strokeWidth: 3,
                   )
                 : const CupertinoActivityIndicator(
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
           ),
         ),

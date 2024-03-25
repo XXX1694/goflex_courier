@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
             ),
-            backgroundColor: const Color(0xFF141515),
+            backgroundColor: Colors.black,
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -90,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         } else if (state is GettingProfile) {
           return Scaffold(
-            backgroundColor: const Color(0xFF141515),
+            backgroundColor: Colors.black,
             body: SafeArea(
               child: Center(
                 child: Platform.isAndroid
@@ -106,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         } else {
           return const Scaffold(
-            backgroundColor: Color(0xFF141515),
+            backgroundColor: Colors.black,
             body: SafeArea(
               child: Center(
                 child: Text('Error'),

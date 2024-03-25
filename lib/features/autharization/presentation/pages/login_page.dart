@@ -70,13 +70,14 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
+              duration: const Duration(seconds: 2),
             ),
           );
         }
       },
       builder: (BuildContext context, state) => Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: const Color(0xFF252525),
+        backgroundColor: Colors.black,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

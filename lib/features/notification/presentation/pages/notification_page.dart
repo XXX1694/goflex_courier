@@ -31,11 +31,11 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0,
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         title: const Text(
           'Уведомление',
           style: TextStyle(
@@ -49,7 +49,7 @@ class _NotificationPageState extends State<NotificationPage> {
           child: Container(
             height: 1,
             width: double.infinity,
-            color: Colors.white12,
+            color: Colors.white24,
           ),
         ),
       ),

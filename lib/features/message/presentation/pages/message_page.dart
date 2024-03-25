@@ -116,7 +116,7 @@ class _MessagePageState extends State<MessagePage> {
           child: Container(
             height: 1,
             width: double.infinity,
-            color: Colors.black26,
+            color: Colors.white24,
           ),
         ),
       ),

@@ -6,8 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:goflex_courier/common/colors.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
 import 'package:goflex_courier/features/orders/presentation/pages/order_info.dart';
-import 'package:goflex_courier/features/orders/presentation/widgets/order_buttons.dart';
-import 'package:goflex_courier/features/orders/presentation/widgets/order_top_part.dart';
+import 'package:goflex_courier/features/orders/presentation/widgets/order_card.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -43,7 +42,7 @@ class _OrdersPageState extends State<OrdersPage> {
         }
       },
       builder: (context, state) => Scaffold(
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text(
             'Заказы',
@@ -58,13 +57,14 @@ class _OrdersPageState extends State<OrdersPage> {
             child: Container(
               height: 1,
               width: double.infinity,
-              color: Colors.white12,
+              color: Colors.white24,
             ),
           ),
           centerTitle: true,
           elevation: 0,
-          backgroundColor: const Color(0xFF141515),
+          backgroundColor: Colors.black,
           foregroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
         ),
         body: SafeArea(
           child: Padding(
@@ -98,48 +98,9 @@ class _OrdersPageState extends State<OrdersPage> {
                             ),
                           );
                         },
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          width: double.infinity,
-                          margin: index == 0
-                              ? const EdgeInsets.symmetric(vertical: 20)
-                              : const EdgeInsets.only(bottom: 20),
-                          height: 165,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF1E1E1E),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              OrderTopPart(
-                                imageUrl: '',
-                                orderNumber: state.orders[index].id.toString(),
-                                to: state.orders[index].to_where?['address'],
-                                from:
-                                    state.orders[index].from_where?['address'],
-                              ),
-                              const SizedBox(height: 12),
-                              // const OrderDetail(),
-                              // const SizedBox(height: 12),
-                              Text(
-                                state.orders[index].description ??
-                                    'Нет описнаия',
-                                style: const TextStyle(
-                                  color: Colors.white54,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              OrderButtons(
-                                sender: state.orders[index].sender ??
-                                    '+77074462659',
-                                resiver: state.orders[index].consumer ??
-                                    '+77074462659',
-                              ),
-                            ],
-                          ),
+                        child: OrderCard(
+                          index: index,
+                          order: state.orders[index],
                         ),
                       ),
                     ),
@@ -164,3 +125,48 @@ class _OrdersPageState extends State<OrdersPage> {
     );
   }
 }
+
+
+// Container(
+//                           padding: const EdgeInsets.all(12),
+//                           width: double.infinity,
+//                           margin: index == 0
+//                               ? const EdgeInsets.symmetric(vertical: 20)
+//                               : const EdgeInsets.only(bottom: 20),
+//                           height: 165,
+//                           decoration: BoxDecoration(
+//                             color: const Color(0xFF1E1E1E),
+//                             borderRadius: BorderRadius.circular(10),
+//                           ),
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               OrderTopPart(
+//                                 imageUrl: '',
+//                                 orderNumber: state.orders[index].id.toString(),
+//                                 to: state.orders[index].to_where?['address'],
+//                                 from:
+//                                     state.orders[index].from_where?['address'],
+//                               ),
+//                               const SizedBox(height: 12),
+//                               // const OrderDetail(),
+//                               // const SizedBox(height: 12),
+//                               Text(
+//                                 state.orders[index].description ??
+//                                     'Нет описнаия',
+//                                 style: const TextStyle(
+//                                   color: Colors.white54,
+//                                   fontSize: 10,
+//                                   fontWeight: FontWeight.w600,
+//                                 ),
+//                               ),
+//                               const SizedBox(height: 12),
+//                               OrderButtons(
+//                                 sender: state.orders[index].sender ??
+//                                     '+77074462659',
+//                                 resiver: state.orders[index].consumer ??
+//                                     '+77074462659',
+//                               ),
+//                             ],
+//                           ),
+//                         ),

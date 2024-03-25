@@ -46,7 +46,7 @@ class MainRepository {
   }) async {
     final dio = Dio();
     String finalUrl =
-        'http://routing.api.2gis.com/routing/7.0.0/global?key=64cca5be-30f8-4772-8d5c-d64bab285c67';
+        'http://routing.api.2gis.com/routing/7.0.0/global?key=2f6a54d7-25b5-4df0-8796-0e422cab77bd';
     final storage = await _storage;
     String? token = storage.getString('auth_token');
     if (token == null) return null;

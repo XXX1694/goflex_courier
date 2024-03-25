@@ -50,7 +50,7 @@ class _OrdersHistoryPageState extends State<OrdersHistoryPage> {
         }
       },
       builder: (context, state) => Scaffold(
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text(
             'История заказов',
@@ -70,7 +70,7 @@ class _OrdersHistoryPageState extends State<OrdersHistoryPage> {
           ),
           centerTitle: true,
           elevation: 0,
-          backgroundColor: const Color(0xFF141515),
+          backgroundColor: Colors.black,
           foregroundColor: Colors.white,
         ),
         body: SafeArea(
@@ -105,7 +105,7 @@ class _OrdersHistoryPageState extends State<OrdersHistoryPage> {
                               : const EdgeInsets.only(bottom: 20),
                           height: 165,
                           decoration: BoxDecoration(
-                            color: const Color(0xFF1E1E1E),
+                            color: Colors.black,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(

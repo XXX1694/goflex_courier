@@ -17,7 +17,7 @@ class ProfileMorePage extends StatelessWidget {
         title: Text('${profile.first_name ?? ''} ${profile.last_name ?? ''}'),
         centerTitle: true,
       ),
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(

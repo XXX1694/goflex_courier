@@ -27,7 +27,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   void initState() {
     bloc = BlocProvider.of<OrderInfoBloc>(context);
     bloc.add(GetInfo(trackin_number: widget.tracking_number));
-    print(widget.tracking_number);
+    // print(widget.tracking_number);
     super.initState();
   }
 
@@ -36,10 +36,10 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
     return BlocConsumer<OrderInfoBloc, OrderInfoState>(
       listener: (context, state) {},
       builder: (context, state) => Scaffold(
-        backgroundColor: const Color(0xFF222222),
+        backgroundColor: Colors.black,
         appBar: AppBar(
           foregroundColor: Colors.white,
-          backgroundColor: const Color(0xFF222222),
+          backgroundColor: Colors.black,
           elevation: 0,
           title: const Text(
             'Информация о заказе',

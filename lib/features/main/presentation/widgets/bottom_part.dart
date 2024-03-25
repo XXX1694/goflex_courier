@@ -28,7 +28,7 @@ class _BottomPartState extends State<BottomPart> {
         height: 206,
         width: double.infinity,
         decoration: const BoxDecoration(
-          color: Color(0xFF141515),
+          color: Colors.black,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(30),
           ),
@@ -75,24 +75,28 @@ class _BottomPartState extends State<BottomPart> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
+              duration: const Duration(seconds: 2),
             ),
           );
         } else if (state is WorkStartError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
+              duration: const Duration(seconds: 2),
             ),
           );
         } else if (state is WorkEnded) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Вы завершили работу'),
+              duration: Duration(seconds: 1),
             ),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Вы начели работу'),
+              duration: Duration(seconds: 1),
             ),
           );
         }

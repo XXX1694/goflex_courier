@@ -43,10 +43,10 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       drawer: const NavBar(),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: RichText(
           text: TextSpan(
@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> {
         children: [
           DGisMap(
             theme: MapTheme.DARK,
-            token: "64cca5be-30f8-4772-8d5c-d64bab285c67",
+            token: "2f6a54d7-25b5-4df0-8796-0e422cab77bd",
             enableUserLocation: true,
             onUserLocationChanged: (position) {
               return Marker(
@@ -122,7 +122,7 @@ class _MainPageState extends State<MainPage> {
     String phone,
   ) {
     return showModalBottomSheet(
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       context: context,
       builder: (context) => const BottomPart(),
       elevation: 0,

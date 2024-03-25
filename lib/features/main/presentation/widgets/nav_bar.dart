@@ -28,7 +28,7 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return BlocConsumer<AutharizationBloc, AutharizationState>(
       builder: (BuildContext context, state) => Drawer(
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         child: ListView(
           children: [
             BlocConsumer<ProfileBloc, ProfileState>(

@@ -56,19 +56,19 @@ class _MapPageDGisState extends State<MapPageDGis> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: widget.type == "SENDING"
             ? const Text('Отправить заказ')
             : const Text('Забрать заказ'),
         centerTitle: true,
       ),
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
           DGisMap(
             theme: MapTheme.DARK,
-            token: "64cca5be-30f8-4772-8d5c-d64bab285c67",
+            token: "2f6a54d7-25b5-4df0-8796-0e422cab77bd",
             enableUserLocation: true,
             onUserLocationChanged: (position) {
               return Marker(

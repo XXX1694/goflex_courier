@@ -7,6 +7,7 @@ import 'package:goflex_courier/features/deliveried/presentation/bloc/deliveried_
 import 'package:goflex_courier/features/delivery_accept/presentation/bloc/delivery_accept_bloc.dart';
 import 'package:goflex_courier/features/orders/data/models/order_model.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
+import 'package:goflex_courier/features/qr_scaner/presentation/pages/qr_page.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 class OrderInfoPage extends StatefulWidget {
@@ -27,14 +28,15 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   void initState() {
     acceptBloc = BlocProvider.of<DeliveryAcceptBloc>(context);
     deliviredBloc = BlocProvider.of<DeliveriedBloc>(context);
-
+    acceptBloc.add(Reset());
+    deliviredBloc.add(ResetA());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(widget.order.order.toString()),
         bottom: PreferredSize(
@@ -42,12 +44,12 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
           child: Container(
             height: 1,
             width: double.infinity,
-            color: Colors.white12,
+            color: Colors.white24,
           ),
         ),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
       ),
@@ -154,10 +156,13 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                           return MainButton(
                             text: 'Заказ доставлен',
                             onPressed: () {
-                              deliviredBloc.add(
-                                Delivered(
-                                  id: widget.order.id ?? 0,
-                                  distance: 0,
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QrScanner(
+                                    id: widget.order.id ?? 0,
+                                    status: 'Delivered',
+                                  ),
                                 ),
                               );
                             },
@@ -177,7 +182,6 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                               content: Text('Заказ доставлен'),
                             ),
                           );
-                          Navigator.pop(context);
                           bloc.add(GetOrders());
                         }
                       },
@@ -186,8 +190,15 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                     return MainButton(
                       text: 'Принять заказ',
                       onPressed: () {
-                        acceptBloc
-                            .add(AcceptDelivery(id: widget.order.id ?? 0));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => QrScanner(
+                              id: widget.order.id ?? 0,
+                              status: 'Accept',
+                            ),
+                          ),
+                        );
                       },
                     );
                   }
@@ -197,12 +208,14 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Заказ принят'),
+                        duration: Duration(seconds: 1),
                       ),
                     );
                   } else if (state is DeliverAceptError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Заказ не принят'),
+                        duration: Duration(seconds: 1),
                       ),
                     );
                   }

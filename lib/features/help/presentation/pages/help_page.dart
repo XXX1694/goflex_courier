@@ -11,11 +11,11 @@ class HelpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0,
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         title: const Text(
           'Помощь',
           style: TextStyle(
@@ -29,7 +29,7 @@ class HelpPage extends StatelessWidget {
           child: Container(
             height: 1,
             width: double.infinity,
-            color: Colors.white12,
+            color: Colors.white24,
           ),
         ),
       ),
@@ -52,6 +52,7 @@ class HelpPage extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Пока не доступно'),
+                      duration: Duration(seconds: 2),
                     ),
                   );
                 },

@@ -67,14 +67,14 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: widget.type == "SENDING"
             ? const Text('Отправить заказ')
             : const Text('Забрать заказ'),
         centerTitle: true,
       ),
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       body: _currentP != null
           ? Stack(
               children: [

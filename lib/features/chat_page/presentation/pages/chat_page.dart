@@ -37,7 +37,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     // bloc.add(GetAllChats());
     return Scaffold(
-      backgroundColor: const Color(0xFF141515),
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: RichText(
           text: TextSpan(
@@ -66,12 +66,12 @@ class _ChatPageState extends State<ChatPage> {
           child: Container(
             height: 1,
             width: double.infinity,
-            color: Colors.white12,
+            color: Colors.white24,
           ),
         ),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: const Color(0xFF141515),
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
       ),
@@ -119,15 +119,21 @@ class _ChatPageState extends State<ChatPage> {
                                           child: MessagePage(
                                             chatId: state.chats[index].id,
                                             userId: state1.userId,
-                                            name: state.chats[index]
-                                                            .participants[0]
+                                            name: state.chats[index].participants[0]
                                                         ['id'] !=
                                                     state1.userId
-                                                ? state.chats[index]
-                                                    .participants[0]['name']
+                                                ? (state.chats[index].participants[0]
+                                                            ['name'] ??
+                                                        state.chats[index]
+                                                                .participants[1]
+                                                            ['name'])
                                                     .toString()
-                                                : state.chats[index]
-                                                    .participants[1]['name']
+                                                : (state.chats[index]
+                                                                .participants[1]
+                                                            ['name'] ??
+                                                        state.chats[index]
+                                                                .participants[0]
+                                                            ['name'])
                                                     .toString(),
                                           ),
                                         ),
@@ -170,15 +176,22 @@ class _ChatPageState extends State<ChatPage> {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                state.chats[index]
-                                                                .participants[0]
+                                                state.chats[index].participants[0]
                                                             ['id'] !=
                                                         state1.userId
-                                                    ? state.chats[index]
-                                                        .participants[0]['name']
+                                                    ? (state.chats[index]
+                                                                    .participants[0]
+                                                                ['name'] ??
+                                                            state.chats[index]
+                                                                    .participants[1]
+                                                                ['name'])
                                                         .toString()
-                                                    : state.chats[index]
-                                                        .participants[1]['name']
+                                                    : (state.chats[index]
+                                                                    .participants[1]
+                                                                ['name'] ??
+                                                            state.chats[index]
+                                                                    .participants[0]
+                                                                ['name'])
                                                         .toString(),
                                                 style: const TextStyle(
                                                   color: Colors.white,
