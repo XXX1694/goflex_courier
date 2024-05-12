@@ -26,6 +26,7 @@ class _QrScannerState extends State<QrScanner> {
   void initState() {
     acceptBloc = BlocProvider.of<DeliveryAcceptBloc>(context);
     deliviredBloc = BlocProvider.of<DeliveriedBloc>(context);
+    acceptBloc.add(AcceptDelivery(id: widget.id));
     super.initState();
   }
 
@@ -127,6 +128,7 @@ class _QrScannerState extends State<QrScanner> {
                   Delivered(
                     id: widget.id,
                     distance: 0,
+                    code: null,
                   ),
                 );
               }

@@ -21,6 +21,7 @@ class OrderModel {
   final int? order;
   final int? courier;
   final String? created_at;
+  final bool is_kaspi_order;
 
   OrderModel({
     required this.id,
@@ -38,6 +39,7 @@ class OrderModel {
     required this.review,
     required this.type,
     required this.created_at,
+    required this.is_kaspi_order,
   });
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);

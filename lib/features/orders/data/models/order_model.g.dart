@@ -22,6 +22,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       review: json['review'] as String?,
       type: json['type'] as String?,
       created_at: json['created_at'] as String?,
+      is_kaspi_order: json['is_kaspi_order'] as bool,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -41,4 +42,5 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'order': instance.order,
       'courier': instance.courier,
       'created_at': instance.created_at,
+      'is_kaspi_order': instance.is_kaspi_order,
     };

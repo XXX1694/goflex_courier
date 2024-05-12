@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:goflex_courier/common/widgets/main_button.dart';
 import 'package:goflex_courier/features/deliveried/presentation/bloc/deliveried_bloc.dart';
+import 'package:goflex_courier/features/deliveried/presentation/pages/kaspi_accept_page.dart';
 import 'package:goflex_courier/features/delivery_accept/presentation/bloc/delivery_accept_bloc.dart';
 import 'package:goflex_courier/features/orders/data/models/order_model.dart';
 import 'package:goflex_courier/features/orders/presentation/bloc/orders_bloc.dart';
-import 'package:goflex_courier/features/qr_scaner/presentation/pages/qr_page.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 class OrderInfoPage extends StatefulWidget {
@@ -26,6 +26,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   late OrdersBloc bloc;
   @override
   void initState() {
+    bloc = BlocProvider.of<OrdersBloc>(context);
     acceptBloc = BlocProvider.of<DeliveryAcceptBloc>(context);
     deliviredBloc = BlocProvider.of<DeliveriedBloc>(context);
     acceptBloc.add(Reset());
@@ -38,7 +39,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(widget.order.order.toString()),
+        title: Text(widget.order.id.toString()),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(
@@ -156,15 +157,37 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                           return MainButton(
                             text: 'Заказ доставлен',
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => QrScanner(
-                                    id: widget.order.id ?? 0,
-                                    status: 'Delivered',
+                              if (widget.order.is_kaspi_order &&
+                                  widget.order.type != 'ASSEMBLE') {
+                                deliviredBloc
+                                    .add(SendCode(id: widget.order.id ?? 0));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => KaspiAccept(
+                                      distance: 0,
+                                      orderId: widget.order.id ?? 0,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => KaspiAccept(
+                                      distance: 0,
+                                      orderId: widget.order.id ?? 0,
+                                    ),
+                                  ),
+                                );
+                                // deliviredBloc.add(
+                                //   Delivered(
+                                //     id: widget.order.id ?? 0,
+                                //     distance: 0,
+                                //     code: null,
+                                //   ),
+                                // );
+                              }
                             },
                           );
                         }
@@ -177,12 +200,13 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                             ),
                           );
                         } else if (state1 is Deliviringed) {
+                          bloc.add(GetOrders());
+                          Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Заказ доставлен'),
                             ),
                           );
-                          bloc.add(GetOrders());
                         }
                       },
                     );
@@ -190,13 +214,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                     return MainButton(
                       text: 'Принять заказ',
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => QrScanner(
-                              id: widget.order.id ?? 0,
-                              status: 'Accept',
-                            ),
+                        acceptBloc.add(
+                          AcceptDelivery(
+                            id: widget.order.id ?? 0,
                           ),
                         );
                       },
@@ -225,21 +245,6 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
               MainButton(
                 text: 'Построить маршрут',
                 onPressed: () async {
-                  // final availableMaps = await MapLauncher.installedMaps;
-                  // if (kDebugMode) {
-                  //   print(availableMaps);
-                  // }
-                  // final isGoogle =
-                  //     await MapLauncher.isMapAvailable(MapType.google);
-                  // print(isGoogle);
-                  // // if (isGoogle) {
-                  // //   await MapLauncher.showMarker(
-                  // //     mapType: MapType.google,
-                  // //     coords: coords,
-                  // //     title: title,
-                  // //     description: description,
-                  // //   );
-                  // // }
                   openMapsSheet(context);
                 },
               ),

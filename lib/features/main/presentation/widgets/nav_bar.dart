@@ -5,7 +5,6 @@ import 'package:goflex_courier/features/autharization/presentation/bloc/authariz
 import 'package:goflex_courier/features/order_history/presentation/pages/order_history_page.dart';
 import 'package:goflex_courier/features/orders/presentation/pages/orders_page.dart';
 import 'package:goflex_courier/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:goflex_courier/features/settings/presentation/pages/settings_page.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key, required});
@@ -155,24 +154,24 @@ class _NavBarState extends State<NavBar> {
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: Divider(color: Colors.white12),
             ),
-            ListTile(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SettingsPages(),
-                  ),
-                );
-              },
-              leading: const Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
-              title: const Text(
-                'Настройки',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            // ListTile(
+            //   onTap: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => const SettingsPages(),
+            //       ),
+            //     );
+            //   },
+            //   leading: const Icon(
+            //     Icons.settings,
+            //     color: Colors.white,
+            //   ),
+            //   title: const Text(
+            //     'Настройки',
+            //     style: TextStyle(color: Colors.white),
+            //   ),
+            // ),
             ListTile(
               onTap: () {
                 authBloc.add(LogOut());

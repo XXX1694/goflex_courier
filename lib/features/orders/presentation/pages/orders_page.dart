@@ -117,7 +117,12 @@ class _OrdersPageState extends State<OrdersPage> {
                               ),
                       )
                     : const Center(
-                        child: Text('Пусто'),
+                        child: Text(
+                          'Пусто',
+                          style: TextStyle(
+                            color: Colors.white54,
+                          ),
+                        ),
                       ),
           ),
         ),

@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 final _storage = SharedPreferences.getInstance();
 
 class DeliveriedRepo {
-  deliveried(int id, int distance) async {
+  deliveried(int id, double distance, int? securityCode) async {
     final dio = Dio();
     final url = mainUrl;
     String finalUrl = '${url}delivery/done/$id/';
@@ -21,6 +21,11 @@ class DeliveriedRepo {
       try {
         final response = await dio.post(
           finalUrl,
+          queryParameters: securityCode != null
+              ? {
+                  "security_code": securityCode,
+                }
+              : {},
           data: jsonEncode(
             {
               "distance": distance,
@@ -44,5 +49,15 @@ class DeliveriedRepo {
         }
       }
     }
+  }
+
+  sendCode({required int id}) async {
+    final dio = Dio();
+    String finalUrl = 'https://back.goflex.kz/delivery/send-security-sms/$id/';
+    final storage = await _storage;
+    String? token = storage.getString('auth_token');
+    if (token == null) return null;
+    dio.options.headers["authorization"] = "Token $token";
+    await dio.post(finalUrl);
   }
 }

@@ -19,6 +19,7 @@ class DeliveriedBloc extends Bloc<DeliveriedEvent, DeliveriedState> {
           final res = await repo.deliveried(
             event.id,
             event.distance,
+            event.code,
           );
           if (res == 201) {
             emit(Deliviringed());
@@ -38,6 +39,11 @@ class DeliveriedBloc extends Bloc<DeliveriedEvent, DeliveriedState> {
     on<ResetA>(
       (event, emit) async {
         emit(DeliveriedInitial());
+      },
+    );
+    on<SendCode>(
+      (event, emit) async {
+        await repo.sendCode(id: event.id);
       },
     );
   }

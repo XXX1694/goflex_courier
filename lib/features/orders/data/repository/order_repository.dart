@@ -18,9 +18,12 @@ class OrderRepository {
     final lng = storage.getDouble('current_lng');
     String finalUrl =
         '${url}delivery/active/list/?latitude=$lat&longitude=$lng';
+
     if (token == null) return null;
     dio.options.headers["authorization"] = "Token $token";
     Uri? uri = Uri.tryParse(finalUrl);
+    // print(finalUrl);
+    // print(token);
     if (uri != null) {
       try {
         final response = await dio.get(finalUrl);
